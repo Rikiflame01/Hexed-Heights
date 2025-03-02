@@ -1,17 +1,33 @@
+using System;
 using UnityEngine;
 
 public class CollisionStick : MonoBehaviour
 {
     public float forceAmount = 10f;
-
     private Rigidbody rb;
+
+    public Transform StickResetPoint;
+
+    private void OnEnable()
+    {
+        ActionManager.OnStickReset += ResetStick;
+    }
+
+    private void ResetStick()
+    {
+        gameObject.transform.position = StickResetPoint.position;
+    }
+    private void OnDisable()
+    {
+        ActionManager.OnStickReset -= ResetStick;
+    }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
-            Debug.LogError("CollisionForceApplier: No Rigidbody found on this object. Please attach a Rigidbody.");
+            Debug.LogError("CollisionStick: No Rigidbody found on this object. Please attach a Rigidbody.");
         }
     }
 
@@ -20,12 +36,16 @@ public class CollisionStick : MonoBehaviour
         if (rb == null)
             return;
 
-        ContactPoint contact = collision.contacts[0];
 
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Block"))
+        {
+            TurnManager.Instance.MarkBlockAsTouched(collision.gameObject);
+        }
+
+        ContactPoint contact = collision.contacts[0];
         Debug.DrawRay(contact.point, transform.position - contact.point, Color.red, 2f);
 
         Vector3 contactDirection = contact.point - transform.position;
-
         Vector3 absDir = new Vector3(
             Mathf.Abs(contactDirection.x),
             Mathf.Abs(contactDirection.y),
@@ -49,3 +69,4 @@ public class CollisionStick : MonoBehaviour
         rb.AddForce(forceDir * forceAmount, ForceMode.Impulse);
     }
 }
+    

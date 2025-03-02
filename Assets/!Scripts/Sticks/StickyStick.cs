@@ -1,28 +1,29 @@
 using UnityEngine;
 using System.Collections;
 
-public class StickStick : MonoBehaviour
+public class StickyStick : MonoBehaviour
 {
-
     public float stickDuration = 5f;
-
     public float positionSpring = 10000f;
     public float positionDamper = 100f;
     public float maximumForce = Mathf.Infinity;
-
     public LineRenderer jointLineRenderer;
 
     private ConfigurableJoint activeJoint;
 
     private void OnCollisionEnter(Collision collision)
     {
+
         if (collision.gameObject.layer != LayerMask.NameToLayer("Block"))
             return;
+
+
+        TurnManager.Instance.MarkBlockAsTouched(collision.gameObject);
 
         Rigidbody otherRb = collision.rigidbody;
         if (otherRb == null)
         {
-            Debug.LogWarning("Colliding object does not have a Rigidbody. Joint cannot be created.");
+            Debug.LogWarning("StickStick: Colliding object does not have a Rigidbody. Joint cannot be created.");
             return;
         }
 
@@ -30,16 +31,14 @@ public class StickStick : MonoBehaviour
             return;
 
         Vector3 collisionPoint = collision.contacts[0].point;
-
         Vector3 localAnchorOther = collision.transform.InverseTransformPoint(collisionPoint);
         Vector3 localAnchorThis = transform.InverseTransformPoint(collisionPoint);
 
         ConfigurableJoint joint = collision.gameObject.AddComponent<ConfigurableJoint>();
-
         Rigidbody thisRb = GetComponent<Rigidbody>();
         if (thisRb == null)
         {
-            Debug.LogWarning("No Rigidbody found on the object with CollisionStickWithConfigurableJoint. Joint cannot be established.");
+            Debug.LogWarning("StickStick: No Rigidbody found on this object. Joint cannot be established.");
             Destroy(joint);
             return;
         }
@@ -50,11 +49,9 @@ public class StickStick : MonoBehaviour
         joint.angularXMotion = ConfigurableJointMotion.Locked;
         joint.angularYMotion = ConfigurableJointMotion.Locked;
         joint.angularZMotion = ConfigurableJointMotion.Locked;
-
         joint.xMotion = ConfigurableJointMotion.Limited;
         joint.yMotion = ConfigurableJointMotion.Limited;
         joint.zMotion = ConfigurableJointMotion.Limited;
-
 
         JointDrive drive = new JointDrive();
         drive.positionSpring = positionSpring;
@@ -66,7 +63,6 @@ public class StickStick : MonoBehaviour
         joint.zDrive = drive;
 
         joint.autoConfigureConnectedAnchor = false;
-
         activeJoint = joint;
 
         StartCoroutine(RemoveJointAfterDuration(joint));
