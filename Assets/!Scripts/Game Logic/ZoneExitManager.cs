@@ -86,9 +86,10 @@ public class ZoneExitManager : MonoBehaviour
             ProcessFailure("First exit has an unexpected tag. Failure.");
         }
     }
-
+    
     private IEnumerator WaitForAdditionalExits()
     {
+        TurnManager.Instance.WaitTurnCanvas();
         yield return new WaitForSeconds(3f);
         ProcessSuccess("Only one Touched block exited within time window. Success.");
     }
@@ -106,6 +107,8 @@ public class ZoneExitManager : MonoBehaviour
             Destroy(firstExitedBlock);
         }
         TurnManager.Instance.ResetTurn();
+        TurnManager.Instance.ShowTurnCanvas();
+
         ResetPartialState();
     }
 

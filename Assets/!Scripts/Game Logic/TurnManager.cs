@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class TurnManager : MonoBehaviour
-{
+{   
     public static TurnManager Instance { get; private set; }
 
     [Header("Turn Settings")]
@@ -22,6 +23,11 @@ public class TurnManager : MonoBehaviour
     public bool TurnFailed { get { return turnFailed; } }
 
     public bool IsTurnResetInProgress { get { return rewindRoutineRunning; } }
+
+    public GameObject player1TurnCanvas;
+    public GameObject player2TurnCanvas;
+
+    public GameObject waitCanvas;
 
     private struct RendererMaterialPair
     {
@@ -80,6 +86,45 @@ public class TurnManager : MonoBehaviour
     public void MarkTurnSuccessful()
     {
         lastTurnSuccessful = true;
+        ActionManager.InvokeStickReset();
+    }
+
+    public void ShowTurnCanvas(){
+        if (PlayerTurn.Player1 == currentTurn)
+        {
+            ActivatePlayer2Canvas();
+        }
+        else
+        {
+            ActivatePlayer1Canvas();
+        }
+    }
+
+    public void WaitTurnCanvas()
+    {
+        waitCanvas.SetActive(true);
+        CanvasGroup canvasGroup = waitCanvas.GetComponentInChildren<CanvasGroup>();
+        StartCoroutine(LerpCanvasAlphaSequence(canvasGroup, 0, 1, 1f, 1f));
+    }
+
+    private IEnumerator LerpCanvasAlphaSequence(CanvasGroup canvasGroup, float start, float end, float duration, float waitTime)
+    {
+        yield return StartCoroutine(LerpCanvasAlpha(canvasGroup, start, end, duration));
+        yield return new WaitForSeconds(waitTime);
+        yield return StartCoroutine(LerpCanvasAlpha(canvasGroup, end, start, duration));
+        waitCanvas.SetActive(false);
+    }
+
+    private IEnumerator LerpCanvasAlpha(CanvasGroup canvasGroup, float start, float end, float duration)
+    {
+        float time = 0;
+        while (time < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(start, end, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = end;
     }
 
     public void ResetTurn()
@@ -147,11 +192,33 @@ public class TurnManager : MonoBehaviour
             Debug.Log("[TurnManager] SwitchTurn aborted. A player's health is 0 or less.");
             return;
         }
-        ActionManager.InvokeStickReset();
+        //ActionManager.InvokeStickReset();
         currentTurn = (currentTurn == PlayerTurn.Player1) ? PlayerTurn.Player2 : PlayerTurn.Player1;
 
         if (ZoneExitManager.Instance != null)
             ZoneExitManager.Instance.ResetAllState();
+    }
+
+    private void ActivatePlayer1Canvas(){
+        player1TurnCanvas.SetActive(true);
+        StartCoroutine(DeactivatePlayer1Canvas());
+    }
+
+    private IEnumerator DeactivatePlayer1Canvas()
+    {
+        yield return new WaitForSeconds(2f);
+        player1TurnCanvas.SetActive(false);
+    }
+
+    private void ActivatePlayer2Canvas(){
+        player2TurnCanvas.SetActive(true);
+        StartCoroutine(DeactivatePlayer2Canvas());
+    }
+
+    private IEnumerator DeactivatePlayer2Canvas()
+    {
+        yield return new WaitForSeconds(2f);
+        player2TurnCanvas.SetActive(false);
     }
 
     public void DecreaseHealth()
