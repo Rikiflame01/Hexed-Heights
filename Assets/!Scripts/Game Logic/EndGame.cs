@@ -22,4 +22,5 @@ public class EndGame : MonoBehaviour
         endGamePanel.SetActive(true);
         TextMeshProUGUI.text = winner + " wins!";
     }
+
 }

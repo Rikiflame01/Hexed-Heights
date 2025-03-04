@@ -86,7 +86,7 @@ public class ZoneExitManager : MonoBehaviour
             ProcessFailure("First exit has an unexpected tag. Failure.");
         }
     }
-    
+
     private IEnumerator WaitForAdditionalExits()
     {
         TurnManager.Instance.WaitTurnCanvas();
@@ -117,6 +117,24 @@ public class ZoneExitManager : MonoBehaviour
         if (outcomeProcessed)
             return;
         outcomeProcessed = true;
+
+        if (TurnManager.Instance.player1Health == 1 && TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player1)
+        {
+            TurnManager.Instance.DecreaseHealth();
+            Log("Game over, don't execute any other reset logic");
+            StopAllCoroutines();
+            return;
+        }
+        if (TurnManager.Instance.player2Health == 1 && TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player2)
+        {
+            TurnManager.Instance.DecreaseHealth();
+            Log("Game over, don't execute any other reset logic");
+            StopAllCoroutines();
+            return;
+        }
+        TurnManager.Instance.waitCanvas.SetActive(false);
+        TurnManager.Instance.DecreaseHealth();
+        TurnManager.Instance.FailedAttemptCanvas();
         Log($"[ZoneExitManager] ProcessFailure: {message}");
         ActionManager.InvokeStickReset();
         ActionManager.InvokeFailedAttempt();

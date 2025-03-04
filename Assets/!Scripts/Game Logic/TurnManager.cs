@@ -29,6 +29,8 @@ public class TurnManager : MonoBehaviour
 
     public GameObject waitCanvas;
 
+    public GameObject failCanvas;
+
     private struct RendererMaterialPair
     {
         public Renderer renderer;
@@ -41,6 +43,8 @@ public class TurnManager : MonoBehaviour
     }
     private Dictionary<GameObject, List<RendererMaterialPair>> touchedBlocks = new Dictionary<GameObject, List<RendererMaterialPair>>();
 
+    private Timer timer;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -51,6 +55,11 @@ public class TurnManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    void Start()
+    {
+        timer = Timer.Instance;
     }
 
     public void MarkBlockAsTouched(GameObject block)
@@ -127,6 +136,18 @@ public class TurnManager : MonoBehaviour
         canvasGroup.alpha = end;
     }
 
+    public void FailedAttemptCanvas()
+    {
+        failCanvas.SetActive(true);
+        StartCoroutine(DeactivateFailCanvas());
+    }
+
+    private IEnumerator DeactivateFailCanvas()
+    {
+        yield return new WaitForSeconds(2f);
+        failCanvas.SetActive(false);
+    }
+
     public void ResetTurn()
     {
         if (player1Health <= 0 || player2Health <= 0)
@@ -152,8 +173,8 @@ public class TurnManager : MonoBehaviour
         }
         touchedBlocks.Clear();
         hasTouched = false;
-
         rewindRoutineRunning = true;
+
         StartCoroutine(RewindEndRoutine());
     }
 
@@ -168,7 +189,6 @@ public class TurnManager : MonoBehaviour
             while (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
                 yield return null;
             ActionManager.InvokeRewindEnd();
-            DecreaseHealth();
             turnFailed = true;
             Debug.Log($"[TurnManager] Failed turn: damage applied. Current turn remains: {currentTurn}");
 
@@ -192,11 +212,13 @@ public class TurnManager : MonoBehaviour
             Debug.Log("[TurnManager] SwitchTurn aborted. A player's health is 0 or less.");
             return;
         }
-        //ActionManager.InvokeStickReset();
+        timer.OnTurnSwitch();
         currentTurn = (currentTurn == PlayerTurn.Player1) ? PlayerTurn.Player2 : PlayerTurn.Player1;
 
         if (ZoneExitManager.Instance != null)
             ZoneExitManager.Instance.ResetAllState();
+
+
     }
 
     private void ActivatePlayer1Canvas(){
@@ -230,6 +252,7 @@ public class TurnManager : MonoBehaviour
             ActionManager.InvokeUpdatePlayerHP("Player 1");
             if (player1Health == 0)
                 ActionManager.InvokeEndGame("Player 2");
+                StopAllCoroutines();
         }
         else
         {
@@ -238,6 +261,13 @@ public class TurnManager : MonoBehaviour
             ActionManager.InvokeUpdatePlayerHP("Player 2");
             if (player2Health == 0)
                 ActionManager.InvokeEndGame("Player 1");
+                StopAllCoroutines();
         }
     }
+
+    public bool IsGameOver()
+    {
+        return player1Health <= 0 || player2Health <= 0 || (failCanvas != null && failCanvas.activeSelf);
+    }
+
 }
