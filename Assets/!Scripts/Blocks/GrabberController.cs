@@ -59,7 +59,8 @@ public class GrabberController : MonoBehaviour
 
     private void OnSelect()
     {
-        if (selectedObject != null || GameStateManager.CurrentState == GameStateManager.GameState.MainMenu || pause.IsPaused)
+        if (selectedObject != null || GameStateManager.CurrentState == GameStateManager.GameState.MainMenu || pause.IsPaused || 
+        TurnManager.Instance.rewindRoutineRunning == true)
             return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();

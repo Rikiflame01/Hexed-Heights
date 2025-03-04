@@ -5039,6 +5039,7 @@ MonoBehaviour:
   player1Health: 3
   player2Health: 3
   currentTurn: 0
+  rewindRoutineRunning: 0
   player1TurnCanvas: {fileID: 91250996}
   player2TurnCanvas: {fileID: 1825124619}
   waitCanvas: {fileID: 1689903521}
@@ -18536,7 +18537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recordDuration: 80
   recordInterval: 0.1
-  rewindSpeed: 30
+  rewindSpeed: 40
   objectsToRewind:
   - {fileID: 1708849688}
   - {fileID: 2086190846}

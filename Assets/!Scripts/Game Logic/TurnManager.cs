@@ -18,7 +18,7 @@ public class TurnManager : MonoBehaviour
 
     private bool lastTurnSuccessful = false;
 
-    private bool rewindRoutineRunning = false;
+    public bool rewindRoutineRunning = false;
     private bool turnFailed = false;
     public bool TurnFailed { get { return turnFailed; } }
 
@@ -101,11 +101,11 @@ public class TurnManager : MonoBehaviour
     public void ShowTurnCanvas(){
         if (PlayerTurn.Player1 == currentTurn)
         {
-            ActivatePlayer2Canvas();
+            ActivatePlayer1Canvas();
         }
         else
         {
-            ActivatePlayer1Canvas();
+            ActivatePlayer2Canvas();
         }
     }
 
@@ -173,16 +173,15 @@ public class TurnManager : MonoBehaviour
         }
         touchedBlocks.Clear();
         hasTouched = false;
-        rewindRoutineRunning = true;
 
-        StartCoroutine(RewindEndRoutine());
+
+        rewindRoutineRunning = true;
+        StartCoroutine(RewindEndRoutine());   
+
     }
 
     private IEnumerator RewindEndRoutine()
     {
-        Debug.Log("[TurnManager] RewindEndRoutine started.");
-        yield return new WaitForSeconds(5f);
-
         if (!lastTurnSuccessful)
         {
 
