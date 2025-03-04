@@ -13,7 +13,7 @@ public class Timer : MonoBehaviour
     private float player2TotalTime;   
     private float remainingGameTime;   
     private bool isTimerRunning = false;     
-    private bool isGameTimerRunning = false; 
+    public bool isGameTimerRunning = false; 
     private bool isPaused = false;          
     private TurnManager.PlayerTurn previousTurn;
 
@@ -97,7 +97,7 @@ public class Timer : MonoBehaviour
         Debug.Log($"Timer started for {TurnManager.Instance.currentTurn}");
     }
 
-    private void EndTurnTimer()
+    public void EndTurnTimer()
     {
         if (!isPaused)
         {

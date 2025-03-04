@@ -211,7 +211,7 @@ public class TurnManager : MonoBehaviour
             Debug.Log("[TurnManager] SwitchTurn aborted. A player's health is 0 or less.");
             return;
         }
-        timer.OnTurnSwitch();
+        //timer.OnTurnSwitch();
         currentTurn = (currentTurn == PlayerTurn.Player1) ? PlayerTurn.Player2 : PlayerTurn.Player1;
 
         if (ZoneExitManager.Instance != null)

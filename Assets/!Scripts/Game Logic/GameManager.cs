@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     {
         MainMenuCanvas.SetActive(false);
         GameStateManager.SetPlaying();
-        Timer.Instance.StartTurnTimer();
+        //Timer.Instance.StartTurnTimer();
     }
 
 }

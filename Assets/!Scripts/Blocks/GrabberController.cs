@@ -68,6 +68,7 @@ public class GrabberController : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, toolsLayer))
         {
+            Timer.Instance.StartTurnTimer();
             selectedObject = hit.collider.gameObject;
             baseY = selectedObject.transform.position.y;
             verticalOffset = baseY;
@@ -108,6 +109,8 @@ public class GrabberController : MonoBehaviour
             OnDrop();
             verticalOffset = baseY;
         }
+        Timer.Instance.EndTurnTimer();
+        Timer.Instance.isGameTimerRunning = false;
     }
 
     private void Update()
