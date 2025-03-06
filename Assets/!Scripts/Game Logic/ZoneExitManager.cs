@@ -107,8 +107,9 @@ public class ZoneExitManager : MonoBehaviour
             Destroy(firstExitedBlock);
         }
         TurnManager.Instance.ResetTurn();
-        TurnManager.Instance.ShowTurnCanvas();
-
+        TurnManager.Instance.HandleHex();
+        //TurnManager.Instance.ShowTurnCanvas(); <--- execute this on the button click
+        
         ResetPartialState();
     }
 

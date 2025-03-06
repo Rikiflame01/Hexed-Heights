@@ -164,10 +164,12 @@ public class Timer : MonoBehaviour
     private void ApplyBuff(TurnManager.PlayerTurn player)
     {
         Debug.Log($"{player} received a buff!");
+        HexManager.Instance.ScheduleProtection(player);
     }
 
     private void ApplyDebuff(TurnManager.PlayerTurn player)
     {
         Debug.Log($"{player} received a debuff!");
+        HexManager.Instance.ScheduleHex(player);
     }
 }

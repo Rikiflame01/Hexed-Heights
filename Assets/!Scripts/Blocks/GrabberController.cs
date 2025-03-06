@@ -68,7 +68,11 @@ public class GrabberController : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, toolsLayer))
         {
-            Timer.Instance.StartTurnTimer();
+            if (Timer.Instance.isGameTimerRunning == false)
+            {
+                Timer.Instance.StartTurnTimer();        
+            }
+
             selectedObject = hit.collider.gameObject;
             baseY = selectedObject.transform.position.y;
             verticalOffset = baseY;

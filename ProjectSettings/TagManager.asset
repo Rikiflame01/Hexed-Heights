@@ -7,6 +7,8 @@ TagManager:
   - MainZone
   - Untouched
   - Touched
+  - Player1Canvas
+  - Player2Canvas
   layers:
   - Default
   - TransparentFX

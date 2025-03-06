@@ -31,6 +31,11 @@ public class TurnManager : MonoBehaviour
 
     public GameObject failCanvas;
 
+    private bool isP1Hexed = false;
+    private bool isP2Hexed = false;
+
+    public GameObject applyHexCanvasP1;
+    public GameObject applyHexCanvasP2;
     private struct RendererMaterialPair
     {
         public Renderer renderer;
@@ -61,6 +66,8 @@ public class TurnManager : MonoBehaviour
     {
         timer = Timer.Instance;
     }
+
+
 
     public void MarkBlockAsTouched(GameObject block)
     {
@@ -267,6 +274,30 @@ public class TurnManager : MonoBehaviour
     public bool IsGameOver()
     {
         return player1Health <= 0 || player2Health <= 0 || (failCanvas != null && failCanvas.activeSelf);
+    }
+
+    public void HandleHex(){
+        if (currentTurn == PlayerTurn.Player1 && isP1Hexed){
+            applyHexCanvasP1.SetActive(true);
+        } else if (currentTurn == PlayerTurn.Player2 && isP2Hexed){
+            applyHexCanvasP2.SetActive(true);
+        }
+    }
+
+    public void SetIsP1HexedBool(){
+        if(isP1Hexed == true) {
+            isP1Hexed = false;
+        } else {
+            isP1Hexed = true;
+        }
+    }
+
+    public void SetIsP2HexedBool(){
+        if(isP2Hexed == true) {
+            isP2Hexed = false;
+        } else {
+            isP2Hexed = true;
+        }
     }
 
 }
