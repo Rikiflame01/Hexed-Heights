@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,6 +47,15 @@ public class GrabberController : MonoBehaviour
         scrollAction.Enable();
 
         ActionManager.OnStickReset += ResetGrabber;
+        ActionManager.OnSneeze += Sneeze;
+    }
+
+    private void Sneeze()
+    {
+        if (selectedObject != null)
+        {
+            selectedObject.GetComponent<Shake>().StartShake();
+        }
     }
 
     private void OnDisable()
@@ -55,6 +65,7 @@ public class GrabberController : MonoBehaviour
         scrollAction.Disable();
 
         ActionManager.OnStickReset -= ResetGrabber;
+        ActionManager.OnSneeze -= Sneeze;
     }
 
     private void OnSelect()

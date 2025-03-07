@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class HexSpells : MonoBehaviour
@@ -23,7 +25,7 @@ public class HexSpells : MonoBehaviour
         GameObject[] blocks = GameObject.FindGameObjectsWithTag("Untouched");
         if (blocks.Length > 0)
         {
-            int index = Random.Range(0, blocks.Length);
+            int index = UnityEngine.Random.Range(0, blocks.Length);
             GameObject block = blocks[index];
 
             block.tag = "Frozen";
@@ -50,6 +52,20 @@ public class HexSpells : MonoBehaviour
 
     public void Sneeze()
     {
-        Debug.Log("Sneeze hex activated.");
+        if (TurnManager.Instance.sneezeHexIsActive){
+            StartCoroutine(SneezeCoroutine());
+        }
+    }
+
+    private IEnumerator SneezeCoroutine()
+    {
+        while (TurnManager.Instance.sneezeHexIsActive)
+        {
+            int randomSeconds = UnityEngine.Random.Range(1, 7);
+            yield return new WaitForSeconds(randomSeconds);
+            ActionManager.InvokeSneeze();
+        }
+
+
     }
 }

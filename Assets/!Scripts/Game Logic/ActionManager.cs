@@ -23,6 +23,13 @@ public static class ActionManager
 
     public static event Action<string> OnEndGame;
 
+    public static event Action OnSneeze;
+
+    public static void InvokeSneeze()
+    {
+        OnSneeze?.Invoke();
+    }
+
     public static void InvokeRewindEnd()
     {
         OnRewindEnd?.Invoke();
