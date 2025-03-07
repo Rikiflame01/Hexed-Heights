@@ -55,6 +55,7 @@ public class GrabberController : MonoBehaviour
         if (selectedObject != null)
         {
             selectedObject.GetComponent<Shake>().StartShake();
+            OnDrop();
         }
     }
 

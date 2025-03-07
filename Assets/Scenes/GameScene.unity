@@ -2833,6 +2833,7 @@ GameObject:
   - component: {fileID: 292851477}
   - component: {fileID: 292851482}
   - component: {fileID: 292851483}
+  - component: {fileID: 292851484}
   m_Layer: 7
   m_Name: StickyStick
   m_TagString: Untagged
@@ -2927,6 +2928,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StickResetPoint: {fileID: 210414272}
+--- !u!114 &292851484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292851476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532026d0fd8a331488998033c3e66f1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDuration: 0.5
+  shakeAmplitude: 1
+  shakeFrequency: 10
 --- !u!1 &293664765
 GameObject:
   m_ObjectHideFlags: 0
@@ -17399,6 +17415,7 @@ GameObject:
   - component: {fileID: 1622882190}
   - component: {fileID: 1622882195}
   - component: {fileID: 1622882196}
+  - component: {fileID: 1622882197}
   m_Layer: 7
   m_Name: Stick
   m_TagString: Untagged
@@ -17537,6 +17554,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forceAmount: 400
   StickResetPoint: {fileID: 1911979064}
+--- !u!114 &1622882197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622882189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532026d0fd8a331488998033c3e66f1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDuration: 0.5
+  shakeAmplitude: 1
+  shakeFrequency: 10
 --- !u!1 &1626993396
 GameObject:
   m_ObjectHideFlags: 0

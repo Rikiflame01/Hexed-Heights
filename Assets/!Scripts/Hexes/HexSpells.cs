@@ -8,6 +8,8 @@ public class HexSpells : MonoBehaviour
 
     public static HexSpells Instance { get; private set; }
 
+    private Coroutine sneezeCoroutine;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -52,6 +54,10 @@ public class HexSpells : MonoBehaviour
 
     public void Sneeze()
     {
+        if (sneezeCoroutine == null)
+        {
+            sneezeCoroutine = StartCoroutine(SneezeCoroutine());
+        }
         if (TurnManager.Instance.sneezeHexIsActive){
             StartCoroutine(SneezeCoroutine());
         }
@@ -65,7 +71,6 @@ public class HexSpells : MonoBehaviour
             yield return new WaitForSeconds(randomSeconds);
             ActionManager.InvokeSneeze();
         }
-
-
+        StopCoroutine(sneezeCoroutine);
     }
 }

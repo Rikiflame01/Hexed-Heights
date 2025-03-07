@@ -254,11 +254,19 @@ public class TurnManager : MonoBehaviour
 
         currentTurn = (currentTurn == PlayerTurn.Player1) ? PlayerTurn.Player2 : PlayerTurn.Player1;
 
+    }    
+    private void ActivatePlayer1Canvas(){
+            player1TurnCanvas.SetActive(true);
+            StartCoroutine(DeactivatePlayer1Canvas());
+        }
+
+    public void ApplyHexOrProt()
+    {
         if (currentTurn == PlayerTurn.Player1)
         {
-            freezeHexIsActive = player1HasFreezeHex;
+            freezeHexIsActive = player2HasFreezeHex;
             player1HasFreezeHex = false;
-            sneezeHexIsActive = player1HasSneezeHex;
+            sneezeHexIsActive = player2HasSneezeHex;
             player1HasSneezeHex = false;
             blockusDeletusIsActive = player1ProtectionBlockusDeletus;
             player1ProtectionBlockusDeletus = false;
@@ -267,9 +275,9 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
-            freezeHexIsActive = player2HasFreezeHex;
+            freezeHexIsActive = player1HasFreezeHex;
             player2HasFreezeHex = false;
-            sneezeHexIsActive = player2HasSneezeHex;
+            sneezeHexIsActive = player1HasSneezeHex;
             player2HasSneezeHex = false;
             blockusDeletusIsActive = player2ProtectionBlockusDeletus;
             player2ProtectionBlockusDeletus = false;
@@ -294,11 +302,7 @@ public class TurnManager : MonoBehaviour
         {
             ProtectionSpells.Instance.TimeFreeze();
         }
-    }    
-    private void ActivatePlayer1Canvas(){
-            player1TurnCanvas.SetActive(true);
-            StartCoroutine(DeactivatePlayer1Canvas());
-        }
+    }
 
     private IEnumerator DeactivatePlayer1Canvas()
     {

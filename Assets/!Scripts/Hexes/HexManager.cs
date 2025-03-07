@@ -61,6 +61,7 @@ public class HexManager : MonoBehaviour
         }
         TurnManager.Instance.applyHexCanvasP1.SetActive(false);
         TurnManager.Instance.applyHexCanvasP2.SetActive(false);
+        TurnManager.Instance.ApplyHexOrProt();
     }
 
     public void ActivateSneezeHex()
@@ -75,6 +76,7 @@ public class HexManager : MonoBehaviour
         }
         TurnManager.Instance.applyHexCanvasP1.SetActive(false);
         TurnManager.Instance.applyHexCanvasP2.SetActive(false);
+        TurnManager.Instance.ApplyHexOrProt();
     }
 
     public void ActivateBDeletusProtection()
@@ -89,6 +91,7 @@ public class HexManager : MonoBehaviour
         }
         P1ProtectionIncurred.SetActive(false);
         P2ProtectionIncurred.SetActive(false);
+        TurnManager.Instance.ApplyHexOrProt();
     }
 
     public void ActivateTimeFreezeProtection()
@@ -103,5 +106,6 @@ public class HexManager : MonoBehaviour
         }
         P1ProtectionIncurred.SetActive(false);
         P2ProtectionIncurred.SetActive(false);
+        TurnManager.Instance.ApplyHexOrProt();
     }
 }
