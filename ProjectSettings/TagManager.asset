@@ -9,6 +9,7 @@ TagManager:
   - Touched
   - Player1Canvas
   - Player2Canvas
+  - Frozen
   layers:
   - Default
   - TransparentFX

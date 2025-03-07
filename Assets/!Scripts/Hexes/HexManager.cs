@@ -49,24 +49,58 @@ public class HexManager : MonoBehaviour
     public void DisableHexP2Canvas(){
         P2HexIncurred.SetActive(false);
     }
-
-    public void ActivateFreezeHex(){
+    public void ActivateFreezeHex()
+    {
+        if (TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player1)
+        {
+            TurnManager.Instance.player2HasFreezeHex = true;
+        }
+        else
+        {
+            TurnManager.Instance.player1HasFreezeHex = true;
+        }
         TurnManager.Instance.applyHexCanvasP1.SetActive(false);
         TurnManager.Instance.applyHexCanvasP2.SetActive(false);
     }
 
-    public void ActivateSneezeHex(){
+    public void ActivateSneezeHex()
+    {
+        if (TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player1)
+        {
+            TurnManager.Instance.player2HasSneezeHex = true;
+        }
+        else
+        {
+            TurnManager.Instance.player1HasSneezeHex = true;
+        }
         TurnManager.Instance.applyHexCanvasP1.SetActive(false);
         TurnManager.Instance.applyHexCanvasP2.SetActive(false);
     }
 
-    public void ActivateBDeletusProtection(){
+    public void ActivateBDeletusProtection()
+    {
+        if (TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player1)
+        {
+            TurnManager.Instance.player1ProtectionBlockusDeletus = true; 
+        }
+        else
+        {
+            TurnManager.Instance.player2ProtectionBlockusDeletus = true;
+        }
         P1ProtectionIncurred.SetActive(false);
         P2ProtectionIncurred.SetActive(false);
-        
     }
 
-    public void ActivateTimeFreezeProtection(){
+    public void ActivateTimeFreezeProtection()
+    {
+        if (TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player1)
+        {
+            TurnManager.Instance.player1ProtectionTimeFreeze = true; 
+        }
+        else
+        {
+            TurnManager.Instance.player2ProtectionTimeFreeze = true;
+        }
         P1ProtectionIncurred.SetActive(false);
         P2ProtectionIncurred.SetActive(false);
     }

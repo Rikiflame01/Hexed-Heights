@@ -34,6 +34,21 @@ public class TurnManager : MonoBehaviour
     private bool isP1Hexed = false;
     private bool isP2Hexed = false;
 
+    public bool freezeHexIsActive = false;
+    public bool sneezeHexIsActive = false;
+
+    public bool blockusDeletusIsActive = false;
+    public bool timeFreezeIsActive = false;
+
+    public bool player1HasFreezeHex = false;
+    public bool player1HasSneezeHex = false;
+    public bool player2HasFreezeHex = false;
+    public bool player2HasSneezeHex = false;
+    public bool player1ProtectionBlockusDeletus = false;
+    public bool player1ProtectionTimeFreeze = false;
+    public bool player2ProtectionBlockusDeletus = false;
+    public bool player2ProtectionTimeFreeze = false;
+
     public GameObject applyHexCanvasP1;
     public GameObject applyHexCanvasP2;
     private struct RendererMaterialPair
@@ -71,6 +86,12 @@ public class TurnManager : MonoBehaviour
 
     public void MarkBlockAsTouched(GameObject block)
     {
+        if (block.tag == "Frozen")
+        {
+            Debug.Log("Cannot touch frozen block.");
+            return;
+        }
+        
         turnFailed = false;
         if (ZoneExitManager.Instance != null)
             ZoneExitManager.Instance.ResetAllState();
@@ -211,26 +232,73 @@ public class TurnManager : MonoBehaviour
         Debug.Log("[TurnManager] RewindEndRoutine finished. State reset for new move.");
     }
 
-    public void SwitchTurn()
+    void SwitchTurn()
     {
-        if (player1Health <= 0 || player2Health <= 0)
+        GameObject[] frozenBlocks = GameObject.FindGameObjectsWithTag("Frozen");
+        foreach (GameObject block in frozenBlocks)
         {
-            Debug.Log("[TurnManager] SwitchTurn aborted. A player's health is 0 or less.");
-            return;
+            block.tag = "Untouched";
+
+            Rigidbody rb = block.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.constraints = RigidbodyConstraints.None;
+            }
         }
-        //timer.OnTurnSwitch();
+
+        freezeHexIsActive = false;
+        sneezeHexIsActive = false;
+        blockusDeletusIsActive = false;
+        timeFreezeIsActive = false;
+
         currentTurn = (currentTurn == PlayerTurn.Player1) ? PlayerTurn.Player2 : PlayerTurn.Player1;
 
-        if (ZoneExitManager.Instance != null)
-            ZoneExitManager.Instance.ResetAllState();
+        if (currentTurn == PlayerTurn.Player1)
+        {
+            freezeHexIsActive = player1HasFreezeHex;
+            player1HasFreezeHex = false;
+            sneezeHexIsActive = player1HasSneezeHex;
+            player1HasSneezeHex = false;
+            blockusDeletusIsActive = player1ProtectionBlockusDeletus;
+            player1ProtectionBlockusDeletus = false;
+            timeFreezeIsActive = player1ProtectionTimeFreeze;
+            player1ProtectionTimeFreeze = false;
+        }
+        else
+        {
+            freezeHexIsActive = player2HasFreezeHex;
+            player2HasFreezeHex = false;
+            sneezeHexIsActive = player2HasSneezeHex;
+            player2HasSneezeHex = false;
+            blockusDeletusIsActive = player2ProtectionBlockusDeletus;
+            player2ProtectionBlockusDeletus = false;
+            timeFreezeIsActive = player2ProtectionTimeFreeze;
+            player2ProtectionTimeFreeze = false;
+        }
 
+        if (freezeHexIsActive)
+        {
+            HexSpells.Instance.FreezeBlock();
+        }
+        if (sneezeHexIsActive)
+        {
+            HexSpells.Instance.Sneeze();
+        }
 
-    }
-
+        if (blockusDeletusIsActive)
+        {
+            ProtectionSpells.Instance.BlockusDeletus();
+        }
+        if (timeFreezeIsActive)
+        {
+            ProtectionSpells.Instance.TimeFreeze();
+        }
+    }    
     private void ActivatePlayer1Canvas(){
-        player1TurnCanvas.SetActive(true);
-        StartCoroutine(DeactivatePlayer1Canvas());
-    }
+            player1TurnCanvas.SetActive(true);
+            StartCoroutine(DeactivatePlayer1Canvas());
+        }
 
     private IEnumerator DeactivatePlayer1Canvas()
     {

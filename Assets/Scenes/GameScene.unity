@@ -5563,6 +5563,18 @@ MonoBehaviour:
   player2TurnCanvas: {fileID: 1825124619}
   waitCanvas: {fileID: 1689903521}
   failCanvas: {fileID: 698087474}
+  freezeHexIsActive: 0
+  sneezeHexIsActive: 0
+  blockusDeletusIsActive: 0
+  timeFreezeIsActive: 0
+  player1HasFreezeHex: 0
+  player1HasSneezeHex: 0
+  player2HasFreezeHex: 0
+  player2HasSneezeHex: 0
+  player1ProtectionBlockusDeletus: 0
+  player1ProtectionTimeFreeze: 0
+  player2ProtectionBlockusDeletus: 0
+  player2ProtectionTimeFreeze: 0
   applyHexCanvasP1: {fileID: 787282763}
   applyHexCanvasP2: {fileID: 1831873140}
 --- !u!1 &513991070
@@ -12881,6 +12893,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 2df72ec125264584faa40cb1beef0481, type: 3}
   m_PrefabInstance: {fileID: 1158773035}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1162664515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1162664516}
+  - component: {fileID: 1162664517}
+  m_Layer: 0
+  m_Name: HexSpells
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1162664516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162664515}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1386060192}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1162664517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162664515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a01b1355a43432418dfabecb87b2056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frozenMaterial: {fileID: 2100000, guid: a9651ecebdb5ebd42a645097e3b2b9b3, type: 2}
 --- !u!1001 &1163467662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14593,6 +14650,8 @@ Transform:
   - {fileID: 2043101342}
   - {fileID: 1973053445}
   - {fileID: 1591885590}
+  - {fileID: 1162664516}
+  - {fileID: 1880602441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1402024801
@@ -19839,6 +19898,50 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1880602440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1880602441}
+  - component: {fileID: 1880602442}
+  m_Layer: 0
+  m_Name: ProtectionSpells
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1880602441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880602440}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1386060192}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1880602442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880602440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 312aed8ce5cb86941aa71e9b3694da2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1881427353
 PrefabInstance:
   m_ObjectHideFlags: 0
