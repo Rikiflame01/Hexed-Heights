@@ -81,7 +81,7 @@ public class HexManager : MonoBehaviour
 
     public void ActivateBDeletusProtection()
     {
-        if (TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player1)
+        if (TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player2)
         {
             TurnManager.Instance.player1ProtectionBlockusDeletus = true; 
         }
@@ -91,12 +91,11 @@ public class HexManager : MonoBehaviour
         }
         P1ProtectionIncurred.SetActive(false);
         P2ProtectionIncurred.SetActive(false);
-        TurnManager.Instance.ApplyHexOrProt();
     }
 
     public void ActivateTimeFreezeProtection()
     {
-        if (TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player1)
+        if (TurnManager.Instance.currentTurn == TurnManager.PlayerTurn.Player2)
         {
             TurnManager.Instance.player1ProtectionTimeFreeze = true; 
         }
@@ -106,6 +105,5 @@ public class HexManager : MonoBehaviour
         }
         P1ProtectionIncurred.SetActive(false);
         P2ProtectionIncurred.SetActive(false);
-        TurnManager.Instance.ApplyHexOrProt();
     }
 }

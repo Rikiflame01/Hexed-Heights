@@ -46,7 +46,7 @@ public class Timer : MonoBehaviour
 
     private void Update()
     {
-        if (!TurnManager.Instance.IsGameOver() && isGameTimerRunning)
+        if (!TurnManager.Instance.IsGameOver() && isGameTimerRunning && !TurnManager.Instance.timeFreezeIsActive)
         {
             remainingGameTime -= Time.deltaTime;
             totalTimeText.text = Mathf.Max(remainingGameTime, 0).ToString("F2");
@@ -63,7 +63,7 @@ public class Timer : MonoBehaviour
             previousTurn = TurnManager.Instance.currentTurn;
         }
 
-        if (isTimerRunning && !isPaused && !TurnManager.Instance.IsTurnResetInProgress)
+        if (isTimerRunning && !isPaused && !TurnManager.Instance.IsTurnResetInProgress && !TurnManager.Instance.timeFreezeIsActive)
         {
             currentTurnTime += Time.deltaTime;
         }
@@ -171,5 +171,27 @@ public class Timer : MonoBehaviour
     {
         Debug.Log($"{player} received a debuff!");
         HexManager.Instance.ScheduleHex(player);
+    }
+
+    public void PauseTimer()
+    {
+        if (isPaused)
+        {
+            Debug.Log("Timer is already paused.");
+            return;
+        }
+        isPaused = true;
+        Debug.Log("Timer paused.");
+    }
+
+    public void ResumeTimer()
+    {
+        if (!isPaused)
+        {
+            Debug.Log("Timer is not paused.");
+            return;
+        }
+        isPaused = false;
+        Debug.Log("Timer resumed.");
     }
 }

@@ -252,13 +252,39 @@ public class TurnManager : MonoBehaviour
         blockusDeletusIsActive = false;
         timeFreezeIsActive = false;
 
+
         currentTurn = (currentTurn == PlayerTurn.Player1) ? PlayerTurn.Player2 : PlayerTurn.Player1;
 
+        if (currentTurn == PlayerTurn.Player1)
+        {
+            blockusDeletusIsActive = player1ProtectionBlockusDeletus;
+            player1ProtectionBlockusDeletus = false;
+
+            timeFreezeIsActive = player1ProtectionTimeFreeze;
+            player1ProtectionTimeFreeze = false;
+        }
+        else
+        {
+            blockusDeletusIsActive = player2ProtectionBlockusDeletus;
+            player2ProtectionBlockusDeletus = false;
+
+            timeFreezeIsActive = player2ProtectionTimeFreeze;
+            player2ProtectionTimeFreeze = false;
+        }
+
+        if (blockusDeletusIsActive)
+        {
+            ProtectionSpells.Instance.BlockusDeletus();
+        }
+        if (timeFreezeIsActive)
+        {
+            ProtectionSpells.Instance.TimeFreeze();
+        }
     }    
     private void ActivatePlayer1Canvas(){
             player1TurnCanvas.SetActive(true);
             StartCoroutine(DeactivatePlayer1Canvas());
-        }
+    }
 
     public void ApplyHexOrProt()
     {
@@ -268,10 +294,7 @@ public class TurnManager : MonoBehaviour
             player1HasFreezeHex = false;
             sneezeHexIsActive = player2HasSneezeHex;
             player1HasSneezeHex = false;
-            blockusDeletusIsActive = player1ProtectionBlockusDeletus;
-            player1ProtectionBlockusDeletus = false;
-            timeFreezeIsActive = player1ProtectionTimeFreeze;
-            player1ProtectionTimeFreeze = false;
+
         }
         else
         {
@@ -279,10 +302,7 @@ public class TurnManager : MonoBehaviour
             player2HasFreezeHex = false;
             sneezeHexIsActive = player1HasSneezeHex;
             player2HasSneezeHex = false;
-            blockusDeletusIsActive = player2ProtectionBlockusDeletus;
-            player2ProtectionBlockusDeletus = false;
-            timeFreezeIsActive = player2ProtectionTimeFreeze;
-            player2ProtectionTimeFreeze = false;
+
         }
 
         if (freezeHexIsActive)
@@ -294,14 +314,6 @@ public class TurnManager : MonoBehaviour
             HexSpells.Instance.Sneeze();
         }
 
-        if (blockusDeletusIsActive)
-        {
-            ProtectionSpells.Instance.BlockusDeletus();
-        }
-        if (timeFreezeIsActive)
-        {
-            ProtectionSpells.Instance.TimeFreeze();
-        }
     }
 
     private IEnumerator DeactivatePlayer1Canvas()

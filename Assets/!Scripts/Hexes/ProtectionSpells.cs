@@ -26,6 +26,7 @@ public class ProtectionSpells : MonoBehaviour
     {
 
         Debug.Log("Time Freeze protection is active.");
+        Timer.Instance.PauseTimer();
 
     }
 }
