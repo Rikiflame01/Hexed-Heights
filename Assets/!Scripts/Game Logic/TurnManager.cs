@@ -275,6 +275,7 @@ public class TurnManager : MonoBehaviour
         if (blockusDeletusIsActive)
         {
             ProtectionSpells.Instance.BlockusDeletus();
+            Timer.Instance.StartTurnTimer();
         }
         if (timeFreezeIsActive)
         {
