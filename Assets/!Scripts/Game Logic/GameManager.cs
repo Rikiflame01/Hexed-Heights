@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     public static void RestartGame(){
         SceneManager.LoadScene("GameScene");
+        Time.timeScale = 1;
     }
 
     public void StartGame()
