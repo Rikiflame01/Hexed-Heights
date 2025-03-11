@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,6 +30,8 @@ public class GrabberController : MonoBehaviour
     private bool isRotatingStick = false;
     private Vector2 lockedCursorPosition;
 
+    private GameObject[] allTools;
+
     private void Awake()
     {
         selectAction = new InputAction("Select", binding: "<Mouse>/leftButton");
@@ -38,6 +41,17 @@ public class GrabberController : MonoBehaviour
         dropAction.performed += ctx => OnDrop();
 
         scrollAction = new InputAction("Scroll", binding: "<Mouse>/scroll");
+
+        int toolsLayerIndex = (int)Mathf.Log(toolsLayer.value, 2);
+        List<GameObject> toolsList = new List<GameObject>();
+        foreach (Transform t in FindObjectsOfType<Transform>())
+        {
+            if (t.gameObject.layer == toolsLayerIndex)
+            {
+                toolsList.Add(t.gameObject);
+            }
+        }
+        allTools = toolsList.ToArray();
     }
 
     private void OnEnable()
@@ -72,7 +86,7 @@ public class GrabberController : MonoBehaviour
     private void OnSelect()
     {
         if (selectedObject != null || GameStateManager.CurrentState == GameStateManager.GameState.MainMenu || pause.IsPaused || 
-        TurnManager.Instance.rewindRoutineRunning == true)
+            TurnManager.Instance.rewindRoutineRunning == true)
             return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -95,6 +109,23 @@ public class GrabberController : MonoBehaviour
                 Vector3 hitPoint = ray.GetPoint(enter);
                 selectionOffset = selectedObject.transform.position - hitPoint;
             }
+
+            foreach (GameObject tool in allTools)
+            {
+                if (tool != selectedObject && !tool.transform.IsChildOf(selectedObject.transform))
+                {
+                    Renderer[] renderers = tool.GetComponentsInChildren<Renderer>();
+                    foreach (Renderer r in renderers)
+                    {
+                        r.enabled = false;
+                    }
+                    Collider[] colliders = tool.GetComponentsInChildren<Collider>();
+                    foreach (Collider c in colliders)
+                    {
+                        c.enabled = false;
+                    }
+                }
+            }
         }
         else
         {
@@ -114,6 +145,20 @@ public class GrabberController : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+            }
+
+            foreach (GameObject tool in allTools)
+            {
+                Renderer[] renderers = tool.GetComponentsInChildren<Renderer>();
+                foreach (Renderer r in renderers)
+                {
+                    r.enabled = true;
+                }
+                Collider[] colliders = tool.GetComponentsInChildren<Collider>();
+                foreach (Collider c in colliders)
+                {
+                    c.enabled = true;
+                }
             }
         }
     }

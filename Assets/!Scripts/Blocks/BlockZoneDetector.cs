@@ -8,16 +8,19 @@ public class BlockZoneDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (TurnManager.Instance.IsGameOver())
+        if (TurnManager.Instance.IsGameOver()){
             return;
+        }
         if(other.CompareTag(zoneTag))
             hasRegisteredExit = false;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (TurnManager.Instance.IsGameOver())
+        if (TurnManager.Instance.IsGameOver()){
             return;
+        }
+
         if (!other.CompareTag(zoneTag))
             return;
 

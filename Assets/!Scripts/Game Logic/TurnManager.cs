@@ -16,7 +16,7 @@ public class TurnManager : MonoBehaviour
     public enum PlayerTurn { Player1, Player2 }
     public PlayerTurn currentTurn = PlayerTurn.Player1;
 
-    private bool lastTurnSuccessful = false;
+    public bool lastTurnSuccessful = false;
 
     public bool rewindRoutineRunning = false;
     private bool turnFailed = false;
@@ -124,6 +124,7 @@ public class TurnManager : MonoBehaviour
     {
         lastTurnSuccessful = true;
         ActionManager.InvokeStickReset();
+        SoundManager.Instance.PlaySoundEffectByName("Correct", 0.8f);
     }
 
     public void ShowTurnCanvas(){
@@ -237,8 +238,7 @@ public class TurnManager : MonoBehaviour
         GameObject[] frozenBlocks = GameObject.FindGameObjectsWithTag("Frozen");
         foreach (GameObject block in frozenBlocks)
         {
-            block.tag = "Untouched";
-
+            HexSpells.Instance.UnfreezeBlock();
             Rigidbody rb = block.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -358,7 +358,7 @@ public class TurnManager : MonoBehaviour
 
     public bool IsGameOver()
     {
-        return player1Health <= 0 || player2Health <= 0 || (failCanvas != null && failCanvas.activeSelf);
+        return player1Health <= 0 || player2Health <= 0;
     }
 
     public void HandleHex(){

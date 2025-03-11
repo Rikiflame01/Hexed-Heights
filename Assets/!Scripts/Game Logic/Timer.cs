@@ -117,7 +117,7 @@ public class Timer : MonoBehaviour
             {
                 ApplyDebuff(TurnManager.Instance.currentTurn);
             }
-            else
+            else if (turnTime < turnTimeThreshold && TurnManager.Instance.lastTurnSuccessful)
             {
                 ApplyBuff(TurnManager.Instance.currentTurn);
             }

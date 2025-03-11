@@ -12,7 +12,7 @@ public class Shake : MonoBehaviour
 
         Vector3 originalPosition = transform.position;
         float startTime = Time.time;
-
+        SoundManager.Instance.PlaySoundEffectByName("sneeze", 0.5f);
         while (Time.time - startTime < shakeDuration)
         {
             float t = (Time.time - startTime) / shakeDuration;

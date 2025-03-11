@@ -5,6 +5,7 @@ using UnityEngine;
 public class HexSpells : MonoBehaviour
 {
     public Material frozenMaterial;
+    public Material normalMaterial;
 
     public static HexSpells Instance { get; private set; }
 
@@ -41,6 +42,7 @@ public class HexSpells : MonoBehaviour
             Renderer rend = block.GetComponentInChildren<Renderer>();
             if (rend != null && frozenMaterial != null)
             {
+                normalMaterial = rend.material;
                 rend.material = frozenMaterial;
             }
 
@@ -49,6 +51,36 @@ public class HexSpells : MonoBehaviour
         else
         {
             Debug.Log("No blocks available to freeze.");
+        }
+    }
+
+    public void UnfreezeBlock()
+    {
+        GameObject[] blocks = GameObject.FindGameObjectsWithTag("Frozen");
+        if (blocks.Length > 0)
+        {
+            int index = UnityEngine.Random.Range(0, blocks.Length);
+            GameObject block = blocks[index];
+
+            block.tag = "Untouched";
+            Rigidbody rb = block.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.constraints = RigidbodyConstraints.None;
+            }
+
+            Renderer rend = block.GetComponentInChildren<Renderer>();
+            if (rend != null)
+            {
+                rend.material = normalMaterial;
+            }
+
+            Debug.Log($"Unfreeze Block hex applied to {block.name}");
+        }
+        else
+        {
+            Debug.Log("No blocks available to unfreeze.");
         }
     }
 
@@ -67,7 +99,7 @@ public class HexSpells : MonoBehaviour
     {
         while (TurnManager.Instance.sneezeHexIsActive)
         {
-            int randomSeconds = UnityEngine.Random.Range(1, 7);
+            int randomSeconds = UnityEngine.Random.Range(3, 7);
             yield return new WaitForSeconds(randomSeconds);
             ActionManager.InvokeSneeze();
         }

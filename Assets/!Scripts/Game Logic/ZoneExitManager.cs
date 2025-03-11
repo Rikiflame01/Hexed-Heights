@@ -85,6 +85,7 @@ public class ZoneExitManager : MonoBehaviour
         {
             ProcessFailure("First exit has an unexpected tag. Failure.");
         }
+        SoundManager.Instance.PlaySoundEffectByName("Pop", 1f);
     }
 
     private IEnumerator WaitForAdditionalExits()
@@ -133,6 +134,7 @@ public class ZoneExitManager : MonoBehaviour
             StopAllCoroutines();
             return;
         }
+        SoundManager.Instance.PlaySoundEffectByName("wrong", 1f);
         TurnManager.Instance.waitCanvas.SetActive(false);
         TurnManager.Instance.DecreaseHealth();
         TurnManager.Instance.FailedAttemptCanvas();

@@ -19,6 +19,7 @@ public class EndGame : MonoBehaviour
 
     private void OnEndGame(string winner)
     {
+        SoundManager.Instance.PlayEndGameSoundtrack();
         endGamePanel.SetActive(true);
         TextMeshProUGUI.text = winner + " wins!";
     }

@@ -10,6 +10,7 @@ TagManager:
   - Player1Canvas
   - Player2Canvas
   - Frozen
+  - LowFrequencyObject
   layers:
   - Default
   - TransparentFX
